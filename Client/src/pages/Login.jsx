@@ -3,9 +3,23 @@ import { useFormik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { ToastContainer, Bounce } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";  
+
 
 
 const Login = () => {
+ const notifySuccess = (message) =>
+    toast.success(message, {
+      position: "top-right",
+      autoClose: 5000,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
+
+
   const nav=useNavigate()
   const formik = useFormik({
     initialValues: {

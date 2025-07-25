@@ -36,13 +36,13 @@ app.post("/signup", async (req, res) => {
     const normalizedEmail = email.toLowerCase();
 
     const userexist = await usermodel.findOne({ email:normalizedEmail });
-if (userexist) {
-  return res.status(400).send({message:"email already exist"})
-    }
+
     if (!fullname || !email || !password) {
       return res.status(400).send({ message: "All fields are required" });
     }
-
+if (userexist) {
+  return res.status(400).send({message:"email already exist"})
+    }
     const newuser = new usermodel({ fullname, email, password: hashPassword });
    await newuser.save();
     res.status(200).send({ message: "Registered successful" });

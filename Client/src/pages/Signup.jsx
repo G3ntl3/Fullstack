@@ -3,12 +3,11 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // ✅ Import the CSS
-
+import "react-toastify/dist/ReactToastify.css";  
 const Signup = () => {
   const navigate = useNavigate();
 
-  // ✅ Notification function
+  
   const notifySuccess = (message) =>
     toast.success(message, {
       position: "top-right",
@@ -36,22 +35,26 @@ const Signup = () => {
       password: "",
     },
     validationSchema: yup.object({
-      fullname: yup.string().required("Full name is required"),
+      fullname: yup
+        .string()
+        .required("Full name is required")
+        .trim()
+        .min(4, "Fullname is required"),
       email: yup.string().email("Invalid email").required("Email is required"),
       password: yup
         .string()
-        .min(8, "Min 8 characters")
+        .min(8, "Min 8 characters").trim()
         .required("Password is required"),
     }),
     onSubmit: async (values) => {
       try {
         const result = await axios.post("http://localhost:8000/signup", values);
         console.log(result);
-        notifySuccess(result.data.message); 
-        
+        notifySuccess(result.data.message);
+
         setTimeout(() => {
           navigate("/login");
-        }, 2000); 
+        }, 2000);
       } catch (err) {
         console.log(err);
         notifyError(err?.response?.data?.message);
